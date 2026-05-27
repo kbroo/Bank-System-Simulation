@@ -1,6 +1,5 @@
 package com.kbroo.bankSystemSimulation.services;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbroo.bankSystemSimulation.entity.*;
 import com.kbroo.bankSystemSimulation.exception.AccountBlockedException;
 import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
@@ -71,7 +70,7 @@ public class BankService {
             case CREDIT -> new CreditAccount(accountNumber, client);
             case SAVINGS -> new SavingsAccount(accountNumber, client);
         };
-        accounts.put(clientID, newAccount);
+        accounts.put(accountNumber, newAccount);
         return newAccount;
     }
 

@@ -43,6 +43,7 @@ abstract public class Account {
             System.out.println("Отрицательная или равная нулю сумма пополнения.");
         } else {
             this.balance = this.balance.add(amount);
+            System.out.println("Счет пополнен.");
         }
     };
 
