@@ -1,5 +1,6 @@
 package com.kbroo.bankSystemSimulation.services;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kbroo.bankSystemSimulation.entity.*;
 import com.kbroo.bankSystemSimulation.exception.AccountBlockedException;
 import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
@@ -9,13 +10,46 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class BankService {
-    private Map<String, Client> clients;
-    private Map<String, Account> accounts;
-    private Map<String, List<Transaction>> transactions;
-    private final AccountNumberGenerator accountNumberGenerator = new AccountNumberGenerator(0);
-    private static int counterAccounts;
+    private final Map<String, Client> clients;
+    private final Map<String, Account> accounts;
+    private final Map<String, List<Transaction>> transactions;
+    private int counterAccounts;
+    private AccountNumberGenerator accountNumberGenerator = new AccountNumberGenerator(counterAccounts);
 
-    public Client createClient(String username, String email) {
+    public BankService() {
+        this.clients = new HashMap<>();
+        this.accounts = new HashMap<>();
+        this.transactions = new HashMap<>();
+        this.counterAccounts = 0;
+    }
+
+    public Map<String, Account> getAccounts() {
+        return accounts;
+    }
+    public Map<String, Client> getClients() {
+        return clients;
+    }
+    public Map<String, List<Transaction>> getTransactions() {
+        return transactions;
+    }
+    public int getCounterAccounts() {
+        return counterAccounts;
+    }
+
+    void restoreFromData(BankData data) {  // package-private
+        clients.clear();
+        clients.putAll(data.getClients());
+
+        accounts.clear();
+        accounts.putAll(data.getAccounts());
+
+        transactions.clear();
+        transactions.putAll(data.getTransactions());
+
+        accountNumberGenerator = new AccountNumberGenerator(data.getCounterAccounts());
+    }
+
+    public Client addClient(String username, String email) {
         Client newClient = new Client(username, email);
         if (clients.containsValue(newClient)) {
             System.out.println("Пользователь уже существует.");
