@@ -6,9 +6,7 @@ import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
 import com.kbroo.bankSystemSimulation.util.AccountNumberGenerator;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class BankService {
     private Map<String, Client> clients;
@@ -66,5 +64,19 @@ public class BankService {
         transactions.get(from).add(transaction);
         transactions.get(to).add(transaction);
         return TransactionStatus.SUCCESS;
+    }
+
+    public List<Transaction> getStatement(String accountNumber) {
+        if (accounts.get(accountNumber) == null) {
+            System.out.println("Счет не найден.");
+            return Collections.emptyList();
+        }
+        return transactions.getOrDefault(accountNumber, Collections.emptyList());
+    }
+
+    public BigDecimal getTotalBankFunds() {
+        return accounts.values().stream()
+                .map(Account::getBalance)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 }
