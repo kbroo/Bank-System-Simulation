@@ -1,5 +1,7 @@
 package com.kbroo.bankSystemSimulation.entity;
 
+import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
@@ -34,10 +36,6 @@ abstract public class Account {
         return this.openedAt;
     }
 
-//    public void setBalance(BigDecimal balance) {
-//        this.balace
-//    }
-
     public abstract BigDecimal calculateMonthlyFee();
 
     public void deposit(BigDecimal amount) {
@@ -54,8 +52,7 @@ abstract public class Account {
             return;
         }
         if (this.balance.compareTo(amount) < 0) {
-            System.out.println("Недостаточно средств для вывода.");
-            return;
+            throw new InsufficientAccountException("Недостаточно средств для вывода.");
         }
         this.balance = this.balance.subtract(amount);
         System.out.println("Успешно снято: " + amount + "$");

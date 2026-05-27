@@ -1,5 +1,7 @@
 package com.kbroo.bankSystemSimulation.entity;
 
+import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -40,8 +42,7 @@ public class CreditAccount extends Account {
         BigDecimal newBalance = this.balance.subtract(amount);
         BigDecimal minAllowed = creditLimit.negate();
         if (newBalance.compareTo(minAllowed) < 0) {
-            System.out.println("Превышен кредитный лимит по снятию средств.");
-            return;
+            throw new InsufficientAccountException("Превышен кредитный лимит по снятию средств.");
         }
         this.balance = newBalance;
         System.out.println("С баланса снято: " + amount + "$");

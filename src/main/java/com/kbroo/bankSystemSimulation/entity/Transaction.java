@@ -6,16 +6,16 @@ import java.util.UUID;
 
 public class Transaction {
     private final UUID id;
-    private final Account from;
-    private final Account to;
+    private final String fromAccount;
+    private final String toAccount;
     private final BigDecimal amount;
     private final LocalDateTime timestamp;
     private final String description;
 
-    public Transaction(Account from, Account to, BigDecimal amount, String description) {
+    public Transaction(String fromAccount, String toAccount, BigDecimal amount, String description) {
         this.id = UUID.randomUUID();
-        this.from = from;
-        this.to = to;
+        this.fromAccount = fromAccount;
+        this.toAccount = toAccount;
         this.amount = amount;
         this.timestamp = LocalDateTime.now();
         this.description = description;
@@ -24,11 +24,11 @@ public class Transaction {
     public UUID getId() {
         return this.id;
     }
-    public Account getFrom() {
-        return this.from;
+    public String getFrom() {
+        return this.fromAccount;
     }
-    public Account getTo() {
-        return this.to;
+    public String getTo() {
+        return this.toAccount;
     }
     public BigDecimal getAmount() {
         return amount;

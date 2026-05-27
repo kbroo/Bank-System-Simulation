@@ -1,13 +1,16 @@
 package com.kbroo.bankSystemSimulation.entity;
 
+import com.kbroo.bankSystemSimulation.exception.AccountBlockedException;
+import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public class SavingsAccount extends Account {
     private BigDecimal interestRate;
 
-    public SavingsAccount(String accountNumber, Client owner, AccountType accountType) {
-        super(accountNumber, owner, accountType);
+    public SavingsAccount(String accountNumber, Client owner) {
+        super(accountNumber, owner, AccountType.SAVINGS);
         this.interestRate = this.accountType.getInterestRate();
     }
 
@@ -25,16 +28,14 @@ public class SavingsAccount extends Account {
         LocalDate today = LocalDate.now();
         LocalDate allowedWithdrawDate = this.openedAt.plusDays(30);
         if (today.isBefore(allowedWithdrawDate)) {
-            System.out.println("Снятие средств доступно не ранее 30 дней после открытия счета.");
-            return;
+            throw new AccountBlockedException("Снятие средств доступно не ранее 30 дней после открытия счета.");
         }
         if (amount.compareTo(BigDecimal.ZERO) <= 0) {
             System.out.println("Отрицательная или равная нулю сумма вывода средств.");
             return;
         }
         if (this.balance.compareTo(amount) < 0) {
-            System.out.println("Недостаточно средств для вывода.");
-            return;
+            throw new InsufficientAccountException("Недостаточно средств для вывода.");
         }
         this.balance = this.balance.subtract(amount);
         System.out.println("Успешно снято: " + amount + "$");
