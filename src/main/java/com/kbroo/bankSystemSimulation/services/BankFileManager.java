@@ -13,6 +13,7 @@ public class BankFileManager {
     public BankFileManager() {
         this.mapper = new ObjectMapper();
         this.mapper.registerModule(new JavaTimeModule());
+        this.mapper.enable(SerializationFeature.INDENT_OUTPUT);
     }
 
     public void saveState(BankService bankService, String filename) throws IOException {
@@ -23,7 +24,6 @@ public class BankFileManager {
                 bankService.getCounterAccounts()
         );
 
-        mapper.enable(SerializationFeature.INDENT_OUTPUT);
         mapper.writeValue(new File(filename), bankData);
     }
 

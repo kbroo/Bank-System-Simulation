@@ -3,10 +3,12 @@ package com.kbroo.bankSystemSimulation.entity;
 import java.util.UUID;
 
 public class Client {
-    private final UUID id;
-    private final String username;
-    private final String email;
+    private UUID id;
+    private String username;
+    private String email;
     private int creditRating;
+
+    public Client() {}
 
     public Client(String username, String email) {
         this.id = UUID.randomUUID();

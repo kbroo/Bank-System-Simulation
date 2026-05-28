@@ -10,7 +10,7 @@ import java.util.Scanner;
 
 public class CommandUI {
     private final Map<Integer, Command> menu;
-    private BankService bankService;
+    private final BankService bankService;
     private final BankFileManager bankFileManager;
 
     public CommandUI() throws IOException {
@@ -21,15 +21,18 @@ public class CommandUI {
                 Map.entry(2, new AddAccountCommand()),
                 Map.entry(3, new DepositCommand()),
                 Map.entry(4, new WithdrawCommand()),
-                Map.entry(5, new TransferCommand())
+                Map.entry(5, new TransferCommand()),
+                Map.entry(6, new PrintAllClientsCommand()),
+                Map.entry(7, new PrintAllAccountsCommand()),
+                Map.entry(0, new SaveAndExitCommand())
         );
     }
 
     private BankService loadOrCreateBank() throws IOException {
         try {
-            this.bankService = bankFileManager.loadState("bank_data.json");
-            return this.bankService;
+            return bankFileManager.loadState("bank_data.json");
         } catch (IOException e) {
+            System.out.println(e.getMessage());
             return new BankService();
         }
     }
@@ -41,6 +44,9 @@ public class CommandUI {
                 "3. Внести депозит\n" +
                 "4. Вывести средства\n" +
                 "5. Выполнить перевод средств\n" +
+                "6. Вывести список пользователей.\n" +
+                "7. Вывести список счетов.\n" +
+                "0. Сохранить и выйти.\n" +
                 "==============================");
     }
 
@@ -56,7 +62,7 @@ public class CommandUI {
         }
     }
 
-    public void run() {
+    public void run() throws IOException {
         System.out.println("Bank System Simulation v1.0 запущен\n");
         Scanner scanner = new Scanner(System.in);
         int choice;
@@ -69,6 +75,7 @@ public class CommandUI {
                 continue;
             }
             command.execute(scanner, bankService);
+            if (choice == 0) return;
         }
     }
 }

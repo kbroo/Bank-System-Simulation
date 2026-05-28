@@ -3,7 +3,9 @@ package com.kbroo.bankSystemSimulation.entity;
 import java.math.BigDecimal;
 
 public class DebitAccount extends Account {
-    private final BigDecimal interestRate;
+    private BigDecimal interestRate;
+
+    public DebitAccount() {}
 
     public DebitAccount(String accountNumber, Client owner) {
         super(accountNumber, owner, AccountType.DEBIT);

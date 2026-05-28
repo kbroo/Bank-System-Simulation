@@ -5,12 +5,14 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public class Transaction {
-    private final UUID id;
-    private final String fromAccount;
-    private final String toAccount;
-    private final BigDecimal amount;
-    private final LocalDateTime timestamp;
-    private final String description;
+    private UUID id;
+    private String fromAccount;
+    private String toAccount;
+    private BigDecimal amount;
+    private LocalDateTime timestamp;
+    private String description;
+
+    public Transaction() {}
 
     public Transaction(String fromAccount, String toAccount, BigDecimal amount, String description) {
         this.id = UUID.randomUUID();

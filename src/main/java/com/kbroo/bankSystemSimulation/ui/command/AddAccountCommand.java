@@ -24,7 +24,7 @@ public class AddAccountCommand implements Command{
                 "1. Дебетовый\n" +
                 "2. Кредитный\n" +
                 "3. Сберегательный");
-        System.out.print("Выберите тип счета:");
+        System.out.print("Выберите тип счета: ");
         Account account = null;
         account = switch(scanner.nextInt()) {
             case 1 -> bankService.openAccount(userid, AccountType.DEBIT);

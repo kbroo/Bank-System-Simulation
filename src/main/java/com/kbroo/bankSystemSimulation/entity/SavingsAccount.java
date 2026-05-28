@@ -9,6 +9,8 @@ import java.time.LocalDate;
 public class SavingsAccount extends Account {
     private BigDecimal interestRate;
 
+    public SavingsAccount() {}
+
     public SavingsAccount(String accountNumber, Client owner) {
         super(accountNumber, owner, AccountType.SAVINGS);
         this.interestRate = this.accountType.getInterestRate();
@@ -26,7 +28,7 @@ public class SavingsAccount extends Account {
     @Override
     public void withdraw(BigDecimal amount) {
         LocalDate today = LocalDate.now();
-        LocalDate allowedWithdrawDate = this.openedAt.plusDays(30);
+        LocalDate allowedWithdrawDate = this.openedIn.plusDays(30);
         if (today.isBefore(allowedWithdrawDate)) {
             throw new AccountBlockedException("Снятие средств доступно не ранее 30 дней после открытия счета.");
         }

@@ -6,8 +6,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 
 public class CreditAccount extends Account {
-    private final BigDecimal interestRate;
+    private BigDecimal interestRate;
     private BigDecimal creditLimit;
+
+    public CreditAccount() {}
 
     public CreditAccount(String accountNumber, Client owner) {
         super(accountNumber, owner, AccountType.CREDIT);

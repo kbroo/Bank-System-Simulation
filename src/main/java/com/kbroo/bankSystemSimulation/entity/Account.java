@@ -1,23 +1,37 @@
 package com.kbroo.bankSystemSimulation.entity;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.kbroo.bankSystemSimulation.exception.InsufficientAccountException;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@JsonTypeInfo(
+        use = JsonTypeInfo.Id.NAME,
+        property = "type"
+)
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = DebitAccount.class, name = "DEBIT"),
+        @JsonSubTypes.Type(value = CreditAccount.class, name = "CREDIT"),
+        @JsonSubTypes.Type(value = SavingsAccount.class, name = "SAVINGS")
+})
+
 abstract public class Account {
-    protected final String accountNumber;
-    protected final Client owner;
+    protected String accountNumber;
+    protected Client owner;
     protected BigDecimal balance;
-    protected final AccountType accountType;
-    protected final LocalDate openedAt;
+    protected AccountType accountType;
+    protected LocalDate openedIn;
+
+    public Account() {}
 
     public Account(String accountNumber, Client owner, AccountType accountType) {
         this.accountNumber = accountNumber;
         this.owner = owner;
         this.balance = BigDecimal.valueOf(0);
         this.accountType = accountType;
-        this.openedAt = LocalDate.now();
+        this.openedIn = LocalDate.now();
     }
 
     public String getAccountNumber() {
@@ -33,7 +47,7 @@ abstract public class Account {
         return this.accountType;
     }
     public LocalDate getOpenedIn() {
-        return this.openedAt;
+        return this.openedIn;
     }
 
     public abstract BigDecimal calculateMonthlyFee();
