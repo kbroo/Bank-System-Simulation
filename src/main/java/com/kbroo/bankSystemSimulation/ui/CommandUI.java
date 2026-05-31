@@ -2,6 +2,7 @@ package com.kbroo.bankSystemSimulation.ui;
 
 import com.kbroo.bankSystemSimulation.services.BankFileManager;
 import com.kbroo.bankSystemSimulation.services.BankService;
+import com.kbroo.bankSystemSimulation.services.InterestEmitter;
 import com.kbroo.bankSystemSimulation.ui.command.*;
 
 import java.io.IOException;
@@ -12,10 +13,12 @@ public class CommandUI {
     private final Map<Integer, Command> menu;
     private final BankService bankService;
     private final BankFileManager bankFileManager;
+    private final InterestEmitter interestEmitter;
 
     public CommandUI() throws IOException {
         this.bankFileManager = new BankFileManager();
         this.bankService = loadOrCreateBank();
+        this.interestEmitter = new InterestEmitter();
         this.menu = Map.ofEntries(
                 Map.entry(1, new AddClientCommand()),
                 Map.entry(2, new AddAccountCommand()),
@@ -66,6 +69,7 @@ public class CommandUI {
         System.out.println("Bank System Simulation v1.0 запущен\n");
         Scanner scanner = new Scanner(System.in);
         int choice;
+        interestEmitter.start(bankService);
         while (true) {
             printMenu();
             choice = readChoice(scanner);
@@ -75,7 +79,10 @@ public class CommandUI {
                 continue;
             }
             command.execute(scanner, bankService);
-            if (choice == 0) return;
+            if (choice == 0) {
+                interestEmitter.stop();
+                return;
+            }
         }
     }
 }
