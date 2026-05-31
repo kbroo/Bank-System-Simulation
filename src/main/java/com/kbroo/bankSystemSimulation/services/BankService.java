@@ -75,7 +75,7 @@ public class BankService {
         return newAccount;
     }
 
-    public TransactionStatus transfer(String from, String to, BigDecimal amount, String description) {
+    public synchronized TransactionStatus transfer(String from, String to, BigDecimal amount, String description) {
         Account fromAccount = accounts.get(from);
         Account toAccount = accounts.get(to);
         if (fromAccount == null || toAccount == null) {
