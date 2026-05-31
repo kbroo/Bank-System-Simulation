@@ -71,6 +71,7 @@ public class BankService {
             case SAVINGS -> new SavingsAccount(accountNumber, client);
         };
         accounts.put(accountNumber, newAccount);
+        counterAccounts++;
         return newAccount;
     }
 
