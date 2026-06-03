@@ -37,19 +37,33 @@ abstract public class Account {
     public String getAccountNumber() {
         return this.accountNumber;
     }
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
     public Client getOwner() {
         return this.owner;
+    }
+    public void setOwner(Client owner) {
+        this.owner = owner;
     }
     public BigDecimal getBalance() {
         return this.balance;
     }
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
+    }
     public AccountType getAccountType() {
         return this.accountType;
     }
-    public LocalDate getOpenedIn() {
+    public void setAccountType(AccountType accountType) {
+        this.accountType = accountType;
+    }
+    public LocalDate getOpenedAt() {
         return this.openedIn;
     }
-
+    public void setOpenedAt(LocalDate openedIn) {
+        this.openedIn = openedIn;
+    }
     public abstract BigDecimal calculateMonthlyFee();
 
     public void deposit(BigDecimal amount) {
